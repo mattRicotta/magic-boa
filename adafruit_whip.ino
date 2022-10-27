@@ -2,16 +2,16 @@
 
 #include <FastLED.h>
 
-#define LED_PIN    6
+#define LED_PIN    1
 #define COLOR_ORDER GRB
-#define NUM_LEDS 48 //48x5 steps pixels for Justice's scarf, 39x7 steps in Matt's scarf
+#define NUM_LEDS 60
 
 int HUE = 0;
 int SATURATION = 255;
 int BRIGHTNESS = 255;
-int STEPS = 5;  
+int STEPS = 4;  
 
-const byte BUTTON_PIN  =  9;
+const byte BUTTON_PIN  =  0;
 uint8_t gHue = 0; // rotating "base color" used by confetti
 
 CRGB leds[NUM_LEDS];
@@ -26,185 +26,7 @@ const unsigned long keySampleIntervalMs = 25;
 byte longKeyPressCountMax = 80;    // 80 * 25 = 2000 ms
 byte longKeyPressCount = 0;
 
-int ledMode = 10;  //FIRST ACTIVE MODE
-
-//ADDITIONAL COLOR PALETTES
-const TProgmemPalette16 Murica_p PROGMEM =
-{
-    CRGB::Red,
-    CRGB::Red, // 'white' is too bright compared to red and blue
-    CRGB::Blue,
-    CRGB::Black,
-    
-    CRGB::Red,
-    CRGB::Gray,
-    CRGB::Blue,
-    CRGB::Black,
-    
-    CRGB::Red,
-    CRGB::Red,
-    CRGB::Gray,
-    CRGB::Gray,
-    CRGB::Blue,
-    CRGB::Blue,
-    CRGB::Black,
-    CRGB::Black
-};
-
-// Gradient palette "bhw1_06_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_06.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 16 bytes of program space.
-
-DEFINE_GRADIENT_PALETTE( bhw1_06_gp ) {
-    0, 184,  1,128,
-  160,   1,193,182,
-  219, 153,227,190,
-  255, 255,255,255};
-
-DEFINE_GRADIENT_PALETTE( AquaMan ) {
-    0, 0,125,255,
-   38, 0,255,255,
-  128, 255,255,255,
-  217, 0,255,255,
-  255, 0,125,255};
-
-DEFINE_GRADIENT_PALETTE( RedFish_gp ) {
-    0, 255,0,0,
-   64, 238,155,174,
-  128, 255,0,0,
-  191, 238,155,174,
-  255, 255,0,0};
-
-
-// Gradient palette "bhw1_15_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_15.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 20 bytes of program space.
-// magenta, white, aqua
-
-DEFINE_GRADIENT_PALETTE( bhw1_15_gp ) {
-    0,   1,  8, 87,
-   71,  23,195,130,
-  122, 186,248,233,
-  168,  23,195,130,
-  255,   1,  8, 87};
-
-// Gradient palette "bhw4_005_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw4/tn/bhw4_005.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 20 bytes of program space.
-
-DEFINE_GRADIENT_PALETTE( bhw4_005_gp ) {
-    0, 244,246,108,
-   76, 244,111,105,
-  145, 182,241,255,
-  226,  74, 96,127,
-  255,  74, 96,127};
-
-DEFINE_GRADIENT_PALETTE( warm_gp ) {
-    0, 255,  0,  0,
-  127, 255, 125, 0,
-  255, 255,  0,  0};
-
-// Gradient palette "bhw1_justducky_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_justducky.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 16 bytes of program space.
-//yellow night test pattern
-
-DEFINE_GRADIENT_PALETTE( justducky_gp ) {
-    0,  47, 28,  2,
-   76, 229, 73,  1,
-  163, 255,255,  0,
-  255, 229, 73,  1};
-
-// Gradient palette "sky_20_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/rafi/tn/sky-20.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 16 bytes of program space.
-// yellow night test pattern...yellow and white
-
-DEFINE_GRADIENT_PALETTE( sky_20_gp ) {
-    0, 255,250,160,
-   76, 255,227, 32,
-  165, 244,146, 16,
-  255, 188,119, 21};
-
-  // Gradient palette "bhw1_07_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_07.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 8 bytes of program space.
-// yellow night test pattern...yellow with some orange
-
-DEFINE_GRADIENT_PALETTE( bhw1_07_gp ) {
-    0, 232, 65,  1,
-  255, 229,227,  1};
-
-  // Gradient palette "Yellow_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/lb/misc/tn/Yellow.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 20 bytes of program space.
-
-DEFINE_GRADIENT_PALETTE( Yellow_gp ) {
-    0, 255,173,  5,
-   53, 252,139,  3,
-  127, 255,180,  8,
-  193, 255,152,  3,
-  255, 252,136,  3};
-
-// Gradient palette "Sundance_Yellow_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/lb/misc/tn/Sundance_Yellow.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 20 bytes of program space.
-
-DEFINE_GRADIENT_PALETTE( Sundance_Yellow_gp ) {
-    0, 255,146,  9,
-   53, 239,104,  4,
-  114, 252,149, 12,
-  193, 249,122,  4,
-  255, 237,107,  4};
-
-// Gradient palette "Lemon_Yellow_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/lb/misc/tn/Lemon_Yellow.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 20 bytes of program space.
-
-DEFINE_GRADIENT_PALETTE( Lemon_Yellow_gp ) {
-    0, 255,173,  3,
-   73, 239,139,  4,
-  135, 252,180,  6,
-  206, 247,152,  4,
-  255, 244,124,  5};
-
-  // Gradient palette "bhw1_pinkpurple_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_pinkpurple.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 24 bytes of program space.
-// Palette for Candy Girl
-
-DEFINE_GRADIENT_PALETTE( bhw1_pinkpurple_gp ) {
-    0, 201, 10,135,
-   58, 255,136,255,
-   96, 237, 29,192,
-  127,  91,  1,153,
-  198, 161, 79,219,
-  255,  34,  1,128};
-
-// Gradient palette "bhw1_HIMpink_gp", originally from
-// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_HIMpink.png.index.html
-// converted for FastLED with gammas (2.6, 2.2, 2.5)
-// Size: 28 bytes of program space.
-
-DEFINE_GRADIENT_PALETTE( bhw1_HIMpink_gp ) {
-    0, 222, 59,133,
-   20, 255, 12,255,
-   66, 217, 13, 75,
-  122, 197, 30,145,
-  163, 244,135,203,
-  209, 197, 30,145,
-  255, 217, 13, 75};
-
+int ledMode = 1;  //FIRST ACTIVE MODE
 
 
 //------------------SETUP------------------
@@ -218,23 +40,18 @@ void setup()
  
 }
   
-#define NUM_MODES 11
+#define NUM_MODES 6
 //------------------MAIN LOOP------------------
 void loop() {
     switch (ledMode) {
        case 999: break;
        case 0: currentPalette = PartyColors_p; rainbow(); break;
-       case 1: currentPalette = LavaColors_p; rainbow(); break;  
-       case 2: currentPalette = ForestColors_p; rainbow(); break;
-       case 3: currentPalette = OceanColors_p; rainbow(); break;                    
+       case 1: currentPalette = OceanColors_p; rainbow(); break;                    
+       case 2: currentPalette = LavaColors_p; rainbow(); break;   
+       case 3: currentPalette = ForestColors_p; rainbow(); break;
        case 4: currentPalette = Rainbow_gp; rainbow(); break;
-       case 5: currentPalette = bhw1_06_gp; rainbow(); break;
-       case 6: currentPalette = bhw1_15_gp; rainbow(); break;
-       case 7: currentPalette = bhw4_005_gp; rainbow(); break;
-       case 8: currentPalette = Murica_p; rainbow(); break;
-       case 9: currentPalette = Lemon_Yellow_gp; rainbow(); break;
-       case 10: currentPalette = bhw1_HIMpink_gp; rainbow(); break;
-       case 11: currentPalette = bhw1_pinkpurple_gp; rainbow(); break;
+       case 5: currentPalette = RainbowColors_p; rainbow(); break;
+       case 6: currentPalette = RainbowStripeColors_p; rainbow(); break;
        case 888: ledMode=0; break;
        } 
        
@@ -312,19 +129,6 @@ void solid()
    
    }
    
-
-void rainbowfade()
-{
-  
-  static uint8_t startIndex = 0;
-  startIndex = startIndex + 0; /* motion speed */
-
-  FillLEDsFromPaletteColors( startIndex);
-
-  FastLED.show();
-  FastLED.delay(20);
-  
-  }
 
 void rainbow()
 {
