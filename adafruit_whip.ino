@@ -26,7 +26,7 @@ const unsigned long keySampleIntervalMs = 25;
 byte longKeyPressCountMax = 80;    // 80 * 25 = 2000 ms
 byte longKeyPressCount = 0;
 
-int ledMode = 10;  //FIRST ACTIVE MODE
+int ledMode = 0;  //FIRST ACTIVE MODE
 
 //ADDITIONAL COLOR PALETTES
 //Uncomment to activate a color palette
@@ -212,7 +212,7 @@ DEFINE_GRADIENT_PALETTE( bhw1_pinkpurple_gp ) {
 // http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_HIMpink.png.index.html
 // converted for FastLED with gammas (2.6, 2.2, 2.5)
 // Size: 28 bytes of program space.
-/*
+
 DEFINE_GRADIENT_PALETTE( bhw1_HIMpink_gp ) {
     0, 222, 59,133,
    20, 255, 12,255,
@@ -221,7 +221,6 @@ DEFINE_GRADIENT_PALETTE( bhw1_HIMpink_gp ) {
   163, 244,135,203,
   209, 197, 30,145,
   255, 217, 13, 75};
-*/
 
 // Gradient palette "bhw1_purplered_gp", originally from
 // http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_purplered.png.index.html
@@ -230,6 +229,48 @@ DEFINE_GRADIENT_PALETTE( bhw1_HIMpink_gp ) {
 DEFINE_GRADIENT_PALETTE( PurpleRed_gp ) {
     0, 255,  0,  0,
   255, 107,  1,205};
+
+// Gradient palette "bhw1_26_gp", originally from
+// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw1/tn/bhw1_26.png.index.html
+// converted for FastLED with gammas (2.6, 2.2, 2.5)
+// Size: 52 bytes of program space.
+
+DEFINE_GRADIENT_PALETTE( bhw1_26_gp ) {
+    0, 107,  1,205,
+   35, 255,255,255,
+   73, 107,  1,205,
+  107,  10,149,210,
+  130, 255,255,255,
+  153,  10,149,210,
+  170,  27,175,119,
+  198,  53,203, 56,
+  207, 132,229,135,
+  219, 255,255,255,
+  231, 132,229,135,
+  252,  53,203, 56,
+  255,  53,203, 56};
+
+// Gradient palette "bhw4_029_gp", originally from
+// http://soliton.vm.bytemark.co.uk/pub/cpt-city/bhw/bhw4/tn/bhw4_029.png.index.html
+// converted for FastLED with gammas (2.6, 2.2, 2.5)
+// Size: 24 bytes of program space.
+
+DEFINE_GRADIENT_PALETTE( MardiGras_gp ) {
+    0,  75,  0,128, //Purple
+   42,  75,  0,128,
+   43,   0,184, 36, //Aqua Green
+   84,   0,184, 36,
+   85, 224,205,  4, //Yellow
+  127, 224,205,  4,
+  128,  75,  0,128, //Purple
+  172,  75,  0,128,
+  173,   0,184, 36, //Aqua Green
+  215,   0,184, 36,
+  216, 224,205,  4, //Yellow
+  255, 224,205,  4};
+
+
+
 
 
 //------------------SETUP------------------
@@ -243,7 +284,7 @@ void setup()
  
 }
   
-#define NUM_MODES 8
+#define NUM_MODES 10
 //------------------MAIN LOOP------------------
 void loop() {
     switch (ledMode) {
@@ -257,6 +298,8 @@ void loop() {
        case 6: currentPalette = Lemon_Yellow_gp; rainbow(); break;
        case 7: currentPalette = AquaMagenta_gp; rainbow(); break;
        case 8: currentPalette = WhiteRainbow_gp; rainbow(); break;
+       case 9: currentPalette = bhw1_HIMpink_gp; rainbowfade(); break;
+       case 10: currentPalette = MardiGras_gp; rainbow(); break;
        case 888: ledMode=0; break;
        } 
        
